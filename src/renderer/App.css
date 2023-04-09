@@ -1,0 +1,135 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+  font-family: ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa,
+    Manjari, "Arial Rounded MT Bold", Calibri, source-sans-pro, sans-serif;
+  font-size: 13px;
+}
+
+.root {
+  background-color: rgb(240, 240, 240);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.App {
+  text-align: center;
+  width: 100%;
+  height: 100vh;
+  background: #fff;
+  padding: 15px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  margin-bottom: 10px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.heading svg {
+  margin-right: 5px;
+}
+
+.input-wrapper {
+  border: 1px solid #000;
+  padding: 5px;
+  display: flex;
+  border-radius: 5px;
+}
+
+.input-wrapper input {
+  border: 0;
+  width: 100%;
+  background-color: transparent;
+}
+
+.input-wrapper:focus-within {
+  background-color: rgb(233, 233, 233);
+}
+
+.input-wrapper input:focus {
+  outline: none;
+}
+
+.action-items-wrapper {
+  padding: 10px;
+  flex: 1;
+}
+
+.action-items-wrapper ul {
+  list-style-type: none;
+  text-align: left;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.action-items-wrapper ul li {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.action-items-wrapper ul li .inactive {
+  display: none;
+}
+
+
+.action-items-wrapper ul li:hover {
+  font-style: italic;
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+.action-items-wrapper ul li:hover .active {
+ display: none;
+}
+.action-items-wrapper ul li:hover .inactive {
+ display: inline;
+}
+
+.action-items-wrapper ul li svg {
+  margin-right: 4px;
+  margin-left: -10px;
+}
+
+.action-items-wrapper ul li:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+hr {
+  margin: 10px 0 15px;
+  border-top: 1px solid #eee;
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  border: 0;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+}
+
+.no-action-items {
+  margin-top: 10px;
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
