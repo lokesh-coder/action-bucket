@@ -4,11 +4,10 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 const { menubar } = require('menubar');
 const Store = require('electron-store');
-import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 import { Menubar } from 'menubar';
 
-const store = new Store();
+const store = new Store({ launchAtStart: true });
 
 class AppUpdater {
   constructor() {
@@ -19,14 +18,7 @@ class AppUpdater {
 }
 
 let mainWindow: BrowserWindow | null = null;
-
 let mb: Menubar;
-
-ipcMain.on('ipc-example', async (event, arg) => {
-  const msgTemplate = (pingPong: string) => `IPC test2: ${pingPong}`;
-  console.log('@', msgTemplate(arg));
-  event.reply('ipc-example', msgTemplate('pong'));
-});
 
 ipcMain.on('quit-app', async (event, arg) => {
   app.quit();
@@ -68,18 +60,17 @@ const createWindow = async () => {
     await installExtensions();
   }
 
-  const RESOURCES_PATH = app.isPackaged
-    ? path.join(process.resourcesPath, 'assets')
-    : path.join(__dirname, '../../assets');
+  const EXTRA_RESOURCES_PATH = app.isPackaged
+    ? path.join(process.resourcesPath, 'extraResources')
+    : path.join(__dirname, '../../extraResources');
 
-  const getAssetPath = (...paths: string[]): string => {
-    return path.join(RESOURCES_PATH, ...paths);
+  const getExtraAssetPath = (...paths: string[]): string => {
+    return path.join(EXTRA_RESOURCES_PATH, ...paths);
   };
 
   mb = menubar({
-    dir: resolveHtmlPath(''),
     index: resolveHtmlPath('index.html'),
-    icon: process.cwd() + '/assets/logo/checkIconTemplate.png',
+    icon: getExtraAssetPath('logo/checkIconTemplate.png'),
     browserWindow: {
       width: 300,
       height: 275,
@@ -87,8 +78,10 @@ const createWindow = async () => {
       maxWidth: 300,
       minHeight: 275,
       maxHeight: 400,
-      movable: true,
-      useContentSize: true,
+      frame: false,
+      fullscreenable: false,
+      resizable: false,
+      showOnAllWorkspaces: false,
       webPreferences: {
         preload: app.isPackaged
           ? path.join(__dirname, 'preload.js')
@@ -98,74 +91,43 @@ const createWindow = async () => {
   });
 
   mb.on('ready', () => {
-    console.log('app is ready', store.get('items'));
     const itemsCache = store.get('items');
     mb.tray.setTitle(itemsCache ? `${itemsCache} items` : 'No action items');
   });
 
-  // mainWindow = new BrowserWindow({
-  //   show: false,
-  //   width: 1024,
-  //   height: 728,
-  //   icon: getAssetPath('icon.png'),
-  //   webPreferences: {
-  //     preload: app.isPackaged
-  //       ? path.join(__dirname, 'preload.js')
-  //       : path.join(__dirname, '../../.erb/dll/preload.js'),
-  //   },
-  // });
+  mb.on('after-hide', () => {
+    mb.app.hide();
+  });
 
-  // mainWindow.loadURL(resolveHtmlPath('index.html'));
+  mb.on('after-create-window', () => {
+    mb.app.dock.hide();
+  });
 
-  // mainWindow.on('ready-to-show', () => {
-  //   if (!mainWindow) {
-  //     throw new Error('"mainWindow" is not defined');
-  //   }
-  //   if (process.env.START_MINIMIZED) {
-  //     mainWindow.minimize();
-  //   } else {
-  //     mainWindow.show();
-  //   }
-  // });
-
-  // mainWindow.on('closed', () => {
-  //   mainWindow = null;
-  // });
-
-  // const menuBuilder = new MenuBuilder(mainWindow);
-  // menuBuilder.buildMenu();
-
-  // // Open urls in the user's browser
-  // mainWindow.webContents.setWindowOpenHandler((edata) => {
-  //   shell.openExternal(edata.url);
-  //   return { action: 'deny' };
-  // });
-
-  // Remove this if your app does not use auto updates
-  // eslint-disable-next-line
   new AppUpdater();
 };
 
-/**
- * Add event listeners...
- */
-
 app.on('window-all-closed', () => {
-  // Respect the OSX convention of having the application in memory even
-  // after all windows have been closed
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
+
+const additionalData = { myKey: 'myValue' };
+const gotTheLock = app.requestSingleInstanceLock(additionalData);
+
+if (!gotTheLock) {
+  app.quit();
+}
 
 app
   .whenReady()
   .then(() => {
     createWindow();
     app.on('activate', () => {
-      // On macOS it's common to re-create a window in the app when the
-      // dock icon is clicked and there are no other windows open.
-      if (mainWindow === null) createWindow();
+      app.dock.hide();
+    });
+    app.on('second-instance', () => {
+      app.dock.hide();
     });
   })
   .catch(console.log);

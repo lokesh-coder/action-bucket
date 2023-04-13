@@ -167,8 +167,8 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Action Items",
+    "appId": "org.erb.ActionItems",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -189,7 +189,10 @@
       "hardenedRuntime": true,
       "entitlements": "assets/entitlements.mac.plist",
       "entitlementsInherit": "assets/entitlements.mac.plist",
-      "gatekeeperAssess": false
+      "gatekeeperAssess": false,
+      "extendInfo": {
+        "LSUIElement": "true"
+      }
     },
     "dmg": {
       "contents": [
@@ -222,7 +225,8 @@
       "output": "release/build"
     },
     "extraResources": [
-      "./assets/**"
+      "./assets/**",
+      "./extraResources/**"
     ],
     "publish": {
       "provider": "github",
