@@ -5,7 +5,7 @@ body {
   min-height: 100vh;
   font-family: ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa,
     Manjari, "Arial Rounded MT Bold", Calibri, source-sans-pro, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
 }
 
 .root {
@@ -27,10 +27,11 @@ body {
 }
 
 .heading {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   align-items: center;
   display: flex;
   justify-content: center;
+  letter-spacing: -0.5px;
 }
 
 .heading svg {
@@ -38,20 +39,30 @@ body {
 }
 
 .input-wrapper {
-  border: 1px solid #000;
+  border: 1px solid #dddfec;
   padding: 5px;
   display: flex;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 .input-wrapper input {
   border: 0;
   width: 100%;
   background-color: transparent;
+  font-weight: 500;
+  color: #17191f;
+  font-size: 13px;
+  font-family: ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa,
+    Manjari, "Arial Rounded MT Bold", Calibri, source-sans-pro, sans-serif;
+}
+
+.input-wrapper svg {
+  fill: #adafb8;
 }
 
 .input-wrapper:focus-within {
-  background-color: rgb(233, 233, 233);
+  background-color: #f8f8fa;
 }
 
 .input-wrapper input:focus {
@@ -73,30 +84,35 @@ body {
 
 .action-items-wrapper ul li {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   cursor: pointer;
+  color: #303952;
+  line-height: 18px;
 }
 
-.action-items-wrapper ul li .inactive {
+.action-items-wrapper ul li svg.hover {
   display: none;
 }
 
-
 .action-items-wrapper ul li:hover {
-  font-style: italic;
+  /* font-style: italic; */
   text-decoration: line-through;
   opacity: 0.5;
-}
-.action-items-wrapper ul li:hover .active {
- display: none;
-}
-.action-items-wrapper ul li:hover .inactive {
- display: inline;
 }
 
 .action-items-wrapper ul li svg {
   margin-right: 4px;
   margin-left: -10px;
+  position: relative;
+  top: 1px;
+}
+
+.action-items-wrapper ul li:hover svg.active {
+  display: none;
+}
+
+.action-items-wrapper ul li:hover svg.hover {
+  display: inline-block;
 }
 
 .action-items-wrapper ul li:not(:last-child) {
@@ -105,7 +121,7 @@ body {
 
 hr {
   margin: 10px 0 15px;
-  border-top: 1px solid #eee;
+  border-top: 0px solid #afb9c6;
 }
 
 footer {
@@ -120,6 +136,17 @@ button {
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 12px;
+  cursor: pointer;
+  background: #fff;
+  color: #303952;
+  font-family: ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa,
+    Manjari, "Arial Rounded MT Bold", Calibri, source-sans-pro, sans-serif;
+  font-size: 13px;
+}
+
+button:hover {
+  background: #ebeef7;
+  color: #6c7475;
 }
 
 .no-action-items {

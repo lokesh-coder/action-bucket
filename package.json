@@ -229,9 +229,7 @@
       "./extraResources/**"
     ],
     "publish": {
-      "provider": "github",
-      "owner": "lokesh-coder",
-      "repo": "action-bucket"
+      "provider": "github"
     }
   },
   "devEngines": {

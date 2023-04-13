@@ -3,13 +3,13 @@ import { useState, useRef, useEffect } from 'react';
 import {
   RectangleStackIcon,
   ArrowUturnLeftIcon,
-  BoltIcon,
+  CheckCircleIcon,
 } from '@heroicons/react/24/solid';
 import {
   PowerIcon,
-  XCircleIcon,
   FolderOpenIcon,
-  XMarkIcon,
+  EllipsisHorizontalCircleIcon,
+  TrashIcon,
 } from '@heroicons/react/24/outline';
 import './App.css';
 
@@ -21,6 +21,22 @@ function Hello() {
     { title: 'fix uat issue', id: crypto.randomUUID() },
     { title: 'prepare chart details and send email', id: crypto.randomUUID() },
   ]);
+
+  const colors = [
+    '#c44569',
+    '#546de5',
+    '#f78fb3',
+    '#3dc1d3',
+    '#e66767',
+    '#303952',
+    '#2ABFAC',
+    '#FEAC03',
+    '#FBA5D9',
+    '#f5cd79',
+    '#e15f41',
+    '#f19066',
+    '#574b90',
+  ];
 
   const handleChange = (e: any) => {
     setCurrentItem(e.target.value);
@@ -57,19 +73,18 @@ function Hello() {
   return (
     <div className="App">
       <div className="heading">
-        <RectangleStackIcon width={20} color={'#2f8cab'} /> Action items
+        <RectangleStackIcon width={20} fill={'#63acda'} /> Action items
       </div>
       <div className="input-wrapper">
         <input
           type="text"
-          placeholder="type here..."
+          placeholder="Type here..."
           ref={inputRef}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           maxLength={40}
-          autoFocus
         />
-        <ArrowUturnLeftIcon width={20} style={{ transform: 'scaleY(-1)' }} />
+        <ArrowUturnLeftIcon width={20} style={{}} />
       </div>
       <div className="action-items-wrapper">
         <ul className="action-items">
@@ -78,11 +93,17 @@ function Hello() {
               <FolderOpenIcon width={30} /> <div>No items to display</div>
             </div>
           ) : null}
-          {items.map((item) => {
+          {items.map((item, index) => {
+            const col = colors[index % colors.length];
             return (
               <li onClick={() => removeItem(item.id)} key={item.id}>
-                <BoltIcon width={20} className="active" />
-                <XMarkIcon width={20} className="inactive" /> {item.title}
+                <EllipsisHorizontalCircleIcon
+                  width={20}
+                  className="active"
+                  stroke={col}
+                />
+                <CheckCircleIcon width={20} className="hover" fill={col} />
+                {item.title}
               </li>
             );
           })}
@@ -91,7 +112,7 @@ function Hello() {
       <hr />
       <footer>
         <button onClick={clearAll}>
-          <XCircleIcon width={16} style={{ marginRight: 5 }} /> Clear all
+          <TrashIcon width={16} style={{ marginRight: 5 }} /> Clear all
         </button>
         <button onClick={quitApp}>
           <PowerIcon width={16} />
